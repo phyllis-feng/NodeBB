@@ -10,6 +10,7 @@ const intFields: string[] = [
     'replies', 'bookmarks',
 ];
 
+
 function modifyPost(post: PostObject, fields: Array<number>) {
     if (post) {
         // The next line calls a function in a module that has not been updated to TS yet
@@ -30,8 +31,6 @@ function modifyPost(post: PostObject, fields: Array<number>) {
         }
     }
 }
-
-
 
 export async function getPostsFields(pids: Array<number>, fields: Array<number>): Promise<PostObject[]> {
     if (!Array.isArray(pids) || !pids.length) {
