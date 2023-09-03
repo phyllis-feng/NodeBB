@@ -3,6 +3,8 @@ import { TopicObject } from './topic';
 import { UserObjectSlim } from './user';
 
 export type PostObject = {
+  edited: number;
+  editedISO: any;
   pid: number;
   tid: number;
   content: string;
