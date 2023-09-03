@@ -10,6 +10,9 @@ const intFields: string[] = [
     'replies', 'bookmarks',
 ];
 
+interface myPostObject extends PostObject{
+    edited: number;
+}
 
 function modifyPost(post: PostObject, fields: Array<number>) {
     if (post) {
