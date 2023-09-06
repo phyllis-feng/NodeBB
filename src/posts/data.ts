@@ -53,7 +53,6 @@ export async function getPostsFields(pids: Array<number>, fields: Array<number>)
     return result.posts as PostObject[];
 }
 
-
 export async function getPostData(pid: number): Promise<PostObject> {
     const posts: Array<PostObject> = await getPostsFields([pid], []);
     return posts && posts.length ? posts[0] : null;
