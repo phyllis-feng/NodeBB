@@ -12,9 +12,10 @@ const intFields: string[] = [
 
 interface myPostObject extends PostObject{
     edited: number;
+    editedISO: string;
 }
 
-function modifyPost(post: PostObject, fields: Array<number>) {
+function modifyPost(post: myPostObject, fields: Array<number>) {
     if (post) {
         // The next line calls a function in a module that has not been updated to TS yet
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -25,12 +26,12 @@ function modifyPost(post: PostObject, fields: Array<number>) {
         if (post.hasOwnProperty('timestamp')) {
             // The next line calls a function in a module that has not been updated to TS yet
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            post.timestampISO = utils.toISOString(post.timestamp);
+            post.timestampISO = utils.toISOString(post.timestamp) as string;
         }
         if (post.hasOwnProperty('edited')) {
             // The next line calls a function in a module that has not been updated to TS yet
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            post.editedISO = post.edited !== 0 ? utils.toISOString(post.edited) : '';
+            post.editedISO = post.edited !== 0 ? utils.toISOString(post.edited) as string : '';
         }
     }
 }
@@ -43,15 +44,13 @@ export async function getPostsFields(pids: Array<number>, fields: Array<number>)
     // The next line calls a function in a module that has not been updated to TS yet
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     const postData: object = await db.getObjects(keys, fields) as object;
-    // The next line calls a function in a module that has not been updated to TS yet
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     const result = await plugins.hooks.fire('filter:post.getFields', {
         pids: pids,
         posts: postData,
         fields: fields,
     });
     result.posts.forEach(post => modifyPost(post, fields));
-    return result.posts;
+    return result.posts as PostObject[];
 }
 
 
